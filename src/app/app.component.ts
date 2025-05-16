@@ -7,8 +7,8 @@ import { MainPageComponent } from "../components/main-page/main-page.component";
   standalone: true,
   imports: [RouterOutlet, MainPageComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss'],
 })
+
 export class AppComponent {
-  title = 'Anguar_Weather_App';
 }
