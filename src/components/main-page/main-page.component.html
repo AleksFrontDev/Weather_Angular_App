@@ -1,8 +1,19 @@
-<input formcontrol="formcontrol" placeholder="Введите город или страну"/>
-<button>Показать погоду</button>
+<!-- <input formcontrol="formcontrol" placeholder="Введите город или страну"/> -->
+<!-- <button>Показать погоду</button> -->
 
-<div>
-  <h3>Погода в</h3>
-  <p>Температура: °C</p>
-  <p>Описание:</p>
+<div class="weather-container">
+  @for (weather of weatherData; track weather.cityName) {
+    <div class="weather-card">
+      <h2>{{ weather.cityName }}</h2>
+      <div class="weather-info">
+        <p><strong>Температура:</strong> {{ weather.temp }}°C</p>
+        <p><strong>Ощущается как:</strong> {{ weather.feels_like }}°C</p>
+        <p><strong>Погода:</strong> {{ weather.weather }}</p>
+        <p><strong>Давление:</strong> {{ weather.pressure }} гПа</p>
+        <p><strong>Ветер:</strong> {{ weather.wind }} м/с</p>
+      </div>
+    </div>
+  } @empty {
+    <p>Нет данных о погоде</p>
+  }
 </div>
