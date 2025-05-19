@@ -1,0 +1,8 @@
+@mixin responsive-grid($breakpoints-map, $grid-map) {
+  @media (min-width: 375px) { grid-template-columns: map-get($grid-map, 375px); }
+  @media (min-width: 480px) { grid-template-columns: map-get($grid-map, 480px); }
+  @media (min-width: 560px) { grid-template-columns: map-get($grid-map, 560px); }
+  @media (min-width: 768px) { grid-template-columns: map-get($grid-map, 768px); }
+  @media (min-width: 900px) { grid-template-columns: map-get($grid-map, 900px); }
+  @media (min-width: 1200px) { grid-template-columns: map-get($grid-map, 1200px); }
+}
