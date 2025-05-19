@@ -1,0 +1,17 @@
+$breakpoints: (
+  375: 375px,
+  480: 480px,
+  560: 560px,
+  768: 768px,
+  900: 900px,
+  1200: 1200px
+);
+
+$grid-template-main: (
+  375px: 1fr,
+  480px: 1fr,
+  560px: repeat(2, minmax(200px, 1fr)),
+  768px: repeat(2, minmax(250px, 1fr)),
+  900px: repeat(3, minmax(200px, 1fr)),
+  1200px: repeat(3, minmax(250px, 1fr))
+);

@@ -9,7 +9,7 @@ import { ProcessedWeatherData, WeatherApiResponse } from './main-page.interface'
   selector: 'app-main-page',
   standalone: true,
   templateUrl: './main-page.component.html',
-  styleUrl: './main-page.component.scss',
+  styleUrl: './styles/main-page.component.scss',
 })
 
 export class MainPageComponent implements OnInit, OnDestroy {
