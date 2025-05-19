@@ -1,38 +1,49 @@
+import { catchError, filter, from, map, mergeMap, of, Subject, takeUntil, tap } from 'rxjs';
 import { HttpClient} from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { API_KEY } from '../../api_key';
 import { CITY_ID } from '../../city-list';
 import { ProcessedWeatherData, WeatherApiResponse } from './main-page.interface';
+import { SearchComponent } from "../search/search.component";
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
   templateUrl: './main-page.component.html',
   styleUrl: './styles/main-page.component.scss',
+  imports: [SearchComponent],
 })
 
 export class MainPageComponent implements OnInit, OnDestroy {
-  public formControl: FormControl = new FormControl('');
   private apiKey = API_KEY;
   private city_id = CITY_ID;
+  private destroy$ = new Subject<void>();
   public weatherData: ProcessedWeatherData[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(protected http: HttpClient) { }
 
   ngOnInit(): void {
     this.getCityData()
-    this.formControl = new FormControl('');
   }
 
   getCityData(): void {
-    this.city_id.forEach((id) => {
-      this.http.get<WeatherApiResponse>(`https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${this.apiKey}`)
-        .subscribe(data => {
-          const processData = this.processWeatherData(data);
-          this.weatherData.push(processData)
-        });
-    });
+    from(this.city_id).pipe(
+      mergeMap(id => this.http.get<WeatherApiResponse>(
+        `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${this.apiKey}`
+      ).pipe(
+        catchError(err => {
+          console.error(`Error fetching data for city ${id}:`, err);
+          return of(null);
+        })
+      )),
+      takeUntil(this.destroy$),
+      filter((data): data is WeatherApiResponse => data !== null),
+      map(data => this.processWeatherData(data)),
+      tap(processedData => {
+        this.weatherData.push(processedData);
+      })
+    ).subscribe();
   }
 
   processWeatherData(data: WeatherApiResponse): ProcessedWeatherData {
@@ -48,5 +59,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+   this.destroy$.next();
+   this.destroy$.complete();
   }
-}
+};
