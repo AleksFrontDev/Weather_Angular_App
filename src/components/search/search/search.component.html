@@ -1,0 +1,28 @@
+<div class="search-container">
+  <input type="text" [formControl]="searchControl" placeholder="Введите название города..." />
+</div>
+
+<div class="content-container">
+  @if (isLoading) {
+    <p class="loading">Загрузка данных...</p>
+  } @else if (error) {
+    <p class="error">{{ error }}</p>
+  } @else {
+    <div class="weather-cards">
+      @for (weather of weatherData; track weather.cityName) {
+        <div class="weather-card">
+          <h2>{{ weather.cityName }}</h2>
+          <div class="weather-info">
+            <p>🌡️ {{ weather.temp }}°C</p>
+            <p>💨 {{ weather.wind }} м/с</p>
+            <p>☁️ {{ weather.weather }}</p>
+          </div>
+        </div>
+      } @empty {
+        @if (searchControl.value && searchControl.value.length >= 3) {
+          <p class="no-results">Городов не найдено</p>
+        }
+      }
+    </div>
+  }
+</div>

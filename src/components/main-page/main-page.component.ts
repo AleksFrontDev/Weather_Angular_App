@@ -1,24 +1,25 @@
 import { catchError, filter, from, map, mergeMap, of, Subject, takeUntil, tap } from 'rxjs';
 import { HttpClient} from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { API_KEY } from '../../api_key';
 import { CITY_ID } from '../../city-list';
 import { ProcessedWeatherData, WeatherApiResponse } from './main-page.interface';
-import { SearchComponent } from "../search/search.component";
+import { SearchComponent } from '../search/search/search.component';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
   templateUrl: './main-page.component.html',
   styleUrl: './styles/main-page.component.scss',
-  imports: [SearchComponent],
+  imports: [
+    SearchComponent
+  ],
 })
 
 export class MainPageComponent implements OnInit, OnDestroy {
-  private apiKey = API_KEY;
-  private city_id = CITY_ID;
-  private destroy$ = new Subject<void>();
+  protected apiKey = API_KEY;
+  protected city_id = CITY_ID;
+  protected destroy$ = new Subject<void>();
   public weatherData: ProcessedWeatherData[] = [];
 
   constructor(protected http: HttpClient) { }
