@@ -1,8 +1,5 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Игнорировать файл с API ключом
-/src/api_key.ts
-
 # Compiled output
 /dist
 /tmp
